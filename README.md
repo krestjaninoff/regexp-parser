@@ -12,7 +12,6 @@ This is the simplest regexp parser implementation that supports the following co
  * (a)
  
 Implementation is based on the following article: https://swtch.com/~rsc/regexp/regexp1.html
-Plus, http://www.sluniverse.com/php/vb/script-library/58242-simple-regular-expression-parser.html
 
 
 ### Usage

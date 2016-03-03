@@ -24,7 +24,8 @@ public class PostfixConverterTest {
 
                 {"(5+3)*7+1", "53+7*1+"},
                 { "ab", "ab." },
-                { "ab*|c", "ab*.c|"}
+                { "ab*|c", "ab*.c|"},
+                { "a(bb)+a", "abb.+.a."}
         };
 
         return Arrays.asList(data);
