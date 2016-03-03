@@ -37,7 +37,7 @@ public class PostfixConverterTest {
     }
 
     @Test
-    public void basicTest() {
+    public void test() {
         String currResult = new PostfixConverter().convertInfix(source);
         assertEquals(result, currResult);
     }

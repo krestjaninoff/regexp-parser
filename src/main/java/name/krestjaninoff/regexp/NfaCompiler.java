@@ -53,6 +53,8 @@ public class NfaCompiler {
         }
 
         Fragment top = stack.pop();
+        top.bindTo(new State(0, State.Type.MATCH, null, null));
+
         return top.getStart();
     }
 
