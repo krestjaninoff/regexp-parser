@@ -1,7 +1,5 @@
-package name.krestjaninoff.regexp;
+package name.krestjaninoff.regexp.nfa;
 
-import name.krestjaninoff.regexp.nfa.Fragment;
-import name.krestjaninoff.regexp.nfa.State;
 import org.apache.commons.collections.ListUtils;
 
 import java.util.Arrays;
@@ -12,7 +10,7 @@ import java.util.Stack;
  */
 public class NfaCompiler {
 
-    public State compile(String postfix) {
+    public NfaState compile(String postfix) {
         Stack<Fragment> stack = new Stack<>();
 
         for (int i = 0; i < postfix.length(); i++) {
@@ -53,14 +51,14 @@ public class NfaCompiler {
         }
 
         Fragment top = stack.pop();
-        top.bindTo(new State(0, State.Type.MATCH, null, null));
+        top.bindTo(new NfaState(0, NfaState.Type.MATCH, null, null));
 
         return top.getStart();
     }
 
     private void buildCharacter(Stack<Fragment> stack, char value) {
 
-        State state = new State(value, State.Type.CHAR, null, null);
+        NfaState state = new NfaState(value, NfaState.Type.CHAR, null, null);
         Fragment fragment = new Fragment(state, Arrays.asList(state.getOut()));
 
         stack.push(fragment);
@@ -71,7 +69,7 @@ public class NfaCompiler {
         Fragment fragment2 = stack.pop();
         Fragment fragment1 = stack.pop();
 
-        State state = new State(0, State.Type.SPLIT, fragment1.getStart(), fragment2.getStart());
+        NfaState state = new NfaState(0, NfaState.Type.SPLIT, fragment1.getStart(), fragment2.getStart());
         Fragment fragment = new Fragment(state, ListUtils.union(fragment1.getOut(), fragment2.getOut()));
 
         stack.push(fragment);
@@ -81,7 +79,7 @@ public class NfaCompiler {
 
         Fragment fragment1 = stack.pop();
 
-        State state = new State(0, State.Type.SPLIT, fragment1.getStart(), null);
+        NfaState state = new NfaState(0, NfaState.Type.SPLIT, fragment1.getStart(), null);
         fragment1.bindTo(state);
 
         Fragment fragment = new Fragment(state, Arrays.asList(state.getOutAlt()));
@@ -93,7 +91,7 @@ public class NfaCompiler {
 
         Fragment fragment1 = stack.pop();
 
-        State state = new State(0, State.Type.SPLIT, fragment1.getStart(), null);
+        NfaState state = new NfaState(0, NfaState.Type.SPLIT, fragment1.getStart(), null);
         fragment1.bindTo(state);
 
         Fragment fragment = new Fragment(fragment1.getStart(), Arrays.asList(state.getOutAlt()));
@@ -105,7 +103,7 @@ public class NfaCompiler {
 
         Fragment fragment1 = stack.pop();
 
-        State state = new State(0, State.Type.SPLIT, fragment1.getStart(), null);
+        NfaState state = new NfaState(0, NfaState.Type.SPLIT, fragment1.getStart(), null);
         Fragment fragment = new Fragment(state, ListUtils.union(fragment1.getOut(), Arrays.asList(state.getOutAlt())));
 
         stack.push(fragment);

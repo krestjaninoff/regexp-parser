@@ -1,6 +1,6 @@
-package name.krestjaninoff.regexp;
+package name.krestjaninoff.regexp.nfa;
 
-import name.krestjaninoff.regexp.nfa.State;
+import name.krestjaninoff.regexp.postfix.PostfixConverter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -85,7 +85,7 @@ public class NfaMatcherTest {
     @Test
     public void test() {
         String postfix = new PostfixConverter().convertInfix(regexp);
-        State nfa = new NfaCompiler().compile(postfix);
+        NfaState nfa = new NfaCompiler().compile(postfix);
 
         boolean currResult = new NfaMatcher().match(nfa, candidate);
         assertEquals(result, currResult);

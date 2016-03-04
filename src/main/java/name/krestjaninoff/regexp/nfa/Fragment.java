@@ -7,36 +7,36 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A fragment of the state
  */
-public class Fragment {
+class Fragment {
 
     // The start state for the fragment
-    private State start;
+    private NfaState start;
 
     // A list of reachable States
-    private List<AtomicReference<State>> out;
+    private List<AtomicReference<NfaState>> out;
 
 
-    public Fragment(State start, List<AtomicReference<State>> out) {
+    public Fragment(NfaState start, List<AtomicReference<NfaState>> out) {
         this.start = start;
         this.out = out;
     }
 
-    public Fragment(State start, AtomicReference<State> outState) {
+    public Fragment(NfaState start, AtomicReference<NfaState> outState) {
         this.start = start;
         this.out = Arrays.asList(outState);
     }
 
 
-    public State getStart() {
+    public NfaState getStart() {
         return start;
     }
 
-    public List<AtomicReference<State>> getOut() {
+    public List<AtomicReference<NfaState>> getOut() {
         return out;
     }
 
 
-    public void bindTo(State state) {
+    public void bindTo(NfaState state) {
         out.forEach(x -> x.set(state));
     }
 }

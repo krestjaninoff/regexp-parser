@@ -1,6 +1,4 @@
-package name.krestjaninoff.regexp;
-
-import name.krestjaninoff.regexp.nfa.State;
+package name.krestjaninoff.regexp.nfa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +8,11 @@ import java.util.List;
  */
 public class NfaMatcher {
 
-    public boolean match(State nfa, String candidate) {
+    public boolean match(NfaState nfa, String candidate) {
 
-        List<State> currentStates = new ArrayList<>();
-        List<State> nextStates = new ArrayList<>();
-        List<State> tmp;
+        List<NfaState> currentStates = new ArrayList<>();
+        List<NfaState> nextStates = new ArrayList<>();
+        List<NfaState> tmp;
 
         // Add initial state
         addState(currentStates, nfa);
@@ -33,17 +31,17 @@ public class NfaMatcher {
         return isMatch;
     }
 
-    private boolean isMatch(List<State> currentStates) {
-        return currentStates.stream().anyMatch(x -> x.getType() == State.Type.MATCH);
+    private boolean isMatch(List<NfaState> currentStates) {
+        return currentStates.stream().anyMatch(x -> x.getType() == NfaState.Type.MATCH);
     }
 
-    private void addState(List<State> list, State state) {
+    private void addState(List<NfaState> list, NfaState state) {
 
         if (state == null || list.contains(state)) {
             return;
         }
 
-        if (state.getType() == State.Type.SPLIT) {
+        if (state.getType() == NfaState.Type.SPLIT) {
             addState(list, state.getOut().get());
             addState(list, state.getOutAlt().get());
 
@@ -53,7 +51,7 @@ public class NfaMatcher {
         list.add(state);
     }
 
-    private void makeStep(char value, List<State> currentStates, List<State> nextStates) {
+    private void makeStep(char value, List<NfaState> currentStates, List<NfaState> nextStates) {
 
         currentStates.stream()
                 .filter(s -> s.getValue() == value)

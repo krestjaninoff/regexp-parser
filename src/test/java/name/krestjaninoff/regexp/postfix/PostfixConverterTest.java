@@ -1,5 +1,6 @@
-package name.krestjaninoff.regexp;
+package name.krestjaninoff.regexp.postfix;
 
+import name.krestjaninoff.regexp.postfix.PostfixConverter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

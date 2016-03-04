@@ -1,4 +1,4 @@
-package name.krestjaninoff.regexp;
+package name.krestjaninoff.regexp.postfix;
 
 import java.util.*;
 

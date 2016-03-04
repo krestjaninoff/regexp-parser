@@ -1,7 +1,5 @@
 package name.krestjaninoff.regexp;
 
-import name.krestjaninoff.regexp.nfa.State;
-
 /**
  * The entry point
  */
@@ -11,22 +9,18 @@ public class Application {
 
         // Get the input data
         if (args.length != 2) {
-            System.out.println("Invalid arguments. Use \"app.name regexp_patter string_to_test\"");
+            System.out.println("Invalid arguments. Use \"APP_NAME regexp_patter string_to_test\"");
         }
 
-        // Compile the pattern
-        String pattern = args[0];
+        // Test it!
         try {
-            String postfix = new PostfixConverter().convertInfix(pattern);
-            State nfa = new NfaCompiler().compile(postfix);
+            String pattern = args[0];
+            String candidate = args[1];
 
-            String candidate = args[0];
-            boolean result = new NfaMatcher().match(nfa, candidate);
-
+            boolean result = new RegexpEngine().match(pattern, candidate);
             System.out.print(result ? "TRUE" : "FALSE");
 
         } catch (Exception e) {
-            System.err.println("Failed to test the regexp " + pattern);
             e.printStackTrace();
         }
     }

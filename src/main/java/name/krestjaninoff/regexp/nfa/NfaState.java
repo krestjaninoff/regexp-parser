@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A state of NFA
  */
-public class State {
+public class NfaState {
 
     public enum Type {
         CHAR, SPLIT, MATCH;
@@ -14,13 +14,13 @@ public class State {
     private int value;
     private Type type;
 
-    private AtomicReference<State> out;
-    private AtomicReference<State> outAlt = new AtomicReference<>();
+    private AtomicReference<NfaState> out;
+    private AtomicReference<NfaState> outAlt = new AtomicReference<>();
 
     private int lastList;
 
 
-    public State(int value, Type type, State out, State outAlt) {
+    public NfaState(int value, Type type, NfaState out, NfaState outAlt) {
         this.value = value;
         this.type = type;
 
@@ -37,17 +37,17 @@ public class State {
         return type;
     }
 
-    public AtomicReference<State> getOut() {
+    public AtomicReference<NfaState> getOut() {
         return out;
     }
-    void setOut(State out) {
+    void setOut(NfaState out) {
         this.out.set(out);
     }
 
-    public AtomicReference<State> getOutAlt() {
+    public AtomicReference<NfaState> getOutAlt() {
         return outAlt;
     }
-    void setOutAlt(State outAlt) {
+    void setOutAlt(NfaState outAlt) {
         this.outAlt.set(outAlt);
     }
 
