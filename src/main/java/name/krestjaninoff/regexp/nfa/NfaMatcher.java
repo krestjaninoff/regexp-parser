@@ -1,60 +1,60 @@
 package name.krestjaninoff.regexp.nfa;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A matcher for applying NFA to a string
+ *
+ * @link https://en.wikipedia.org/wiki/Thompson%27s_construction
  */
 public class NfaMatcher {
 
     public boolean match(NfaState nfa, String candidate) {
 
-        List<NfaState> currentStates = new ArrayList<>();
-        List<NfaState> nextStates = new ArrayList<>();
-        List<NfaState> tmp;
+        Set<NfaState> currentStates = new HashSet<>();
 
-        // Add initial state
+        // Add the initial state
         addState(currentStates, nfa);
 
         // Traverse through the NFA
         for (int i = 0; i < candidate.length(); i++) {
 
-            makeStep(candidate.charAt(i), currentStates, nextStates);
-
-            tmp = nextStates;
-            nextStates = currentStates;
-            currentStates = tmp;
+            // Find the possible steps
+            currentStates = getNextStates(candidate.charAt(i), currentStates);
         }
 
         boolean isMatch = isMatch(currentStates);
         return isMatch;
     }
 
-    private boolean isMatch(List<NfaState> currentStates) {
-        return currentStates.stream().anyMatch(x -> x.getType() == NfaState.Type.MATCH);
-    }
+    private void addState(Set<NfaState> states, NfaState state) {
 
-    private void addState(List<NfaState> list, NfaState state) {
-
-        if (state == null || list.contains(state)) {
+        if (state == null || states.contains(state)) {
             return;
         }
 
         if (state.getType() == NfaState.Type.SPLIT) {
-            addState(list, state.getOut().get());
-            addState(list, state.getOutAlt().get());
+            addState(states, state.getOut().get());
+            addState(states, state.getOutAlt().get());
 
             return;
         }
 
-        list.add(state);
+        states.add(state);
     }
 
-    private void makeStep(Character value, List<NfaState> currentStates, List<NfaState> nextStates) {
+    private Set<NfaState> getNextStates(Character value, Set<NfaState> currentStates) {
+        Set<NfaState> nextStates = new HashSet<>();
 
         currentStates.stream()
                 .filter(s -> value.equals(s.getValue()))
                 .forEach(s -> addState(nextStates, s.getOut().get()));
+
+        return nextStates;
+    }
+
+    private boolean isMatch(Set<NfaState> currentStates) {
+        return currentStates.stream().anyMatch(x -> x.getType() == NfaState.Type.MATCH);
     }
 }

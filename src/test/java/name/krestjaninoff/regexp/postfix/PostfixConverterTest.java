@@ -22,9 +22,33 @@ public class PostfixConverterTest {
     public static Collection<Object[]> data() {
         Object[][] data = new Object[][] {
 
+                // Empty case
+                { "", "" },
+
+                // One element string
+                { "a", "a" },
+
+                // Concatenation
                 { "ab", "ab." },
+                { "abc", "ab.c." },
+
+                // Qualifiers
+                { "a?b", "a?b." },
+                { "a+b", "a+b." },
+                { "a*b", "a*b." },
+
+                // Alternation
+                { "a|b", "ab|"},
+                { "ab|cd", "ab.cd.|"},
                 { "ab*|c", "ab*.c|"},
-                { "a(bb)+a", "abb.+.a."}
+                { "ab*|c?d+", "ab*.c?d+.|"},
+
+                // Grouping
+                { "a(bb)+a", "abb.+.a."},
+                { "(aa)?", "aa.?"},
+
+                // Compound cases
+                { "a(bc)?c*|cd", "abc.?.c*.cd.|"}
         };
 
         return Arrays.asList(data);
@@ -38,6 +62,6 @@ public class PostfixConverterTest {
     @Test
     public void test() {
         String currResult = new PostfixConverter().convertInfix(source);
-        assertEquals(result, currResult);
+        assertEquals(source + " to " + currResult, result, currResult);
     }
 }

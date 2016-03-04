@@ -1,8 +1,6 @@
 package name.krestjaninoff.regexp.nfa;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A fragment of the state
@@ -13,17 +11,12 @@ class Fragment {
     private NfaState start;
 
     // A list of reachable States
-    private List<AtomicReference<NfaState>> out;
+    private List<NfaState.Holder> out;
 
 
-    public Fragment(NfaState start, List<AtomicReference<NfaState>> out) {
+    public Fragment(NfaState start, List<NfaState.Holder> out) {
         this.start = start;
         this.out = out;
-    }
-
-    public Fragment(NfaState start, AtomicReference<NfaState> outState) {
-        this.start = start;
-        this.out = Arrays.asList(outState);
     }
 
 
@@ -31,7 +24,7 @@ class Fragment {
         return start;
     }
 
-    public List<AtomicReference<NfaState>> getOut() {
+    public List<NfaState.Holder> getOut() {
         return out;
     }
 

@@ -10,6 +10,11 @@ import name.krestjaninoff.regexp.postfix.PostfixConverter;
  */
 public class RegexpEngine {
 
+    private PostfixConverter postfixConverter = new PostfixConverter();
+
+    private NfaCompiler nfaCompiler = new NfaCompiler();
+    private NfaMatcher nfaMatcher = new NfaMatcher();
+
     /**
      * Test if the candidate matches with the pattern
      *
@@ -23,10 +28,10 @@ public class RegexpEngine {
         boolean result;
         try {
 
-            String postfix = new PostfixConverter().convertInfix(pattern);
-            NfaState nfa = new NfaCompiler().compile(postfix);
+            String postfix = postfixConverter.convertInfix(pattern);
+            NfaState nfa = nfaCompiler.compile(postfix);
 
-            result = new NfaMatcher().match(nfa, candidate);
+            result = nfaMatcher.match(nfa, candidate);
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to test the regexp '" + pattern +

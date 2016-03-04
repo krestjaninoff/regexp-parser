@@ -12,7 +12,7 @@ public class Application {
             System.out.println("Invalid arguments. Use \"APP_NAME regexp_patter string_to_test\"");
         }
 
-        // Test it!
+        // Compile and match
         try {
             String pattern = args[0];
             String candidate = args[1];

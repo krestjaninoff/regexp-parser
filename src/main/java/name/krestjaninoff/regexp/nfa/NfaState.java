@@ -1,21 +1,31 @@
 package name.krestjaninoff.regexp.nfa;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 /**
  * A state of NFA
  */
 public class NfaState {
 
     public enum Type {
-        CHAR, SPLIT, MATCH;
+        CHAR, SPLIT, MATCH
+    }
+
+    public static class Holder {
+        private NfaState state;
+
+        public NfaState get() {
+            return this.state;
+        }
+
+        public void set(NfaState state) {
+            this.state = state;
+        }
     }
 
     private Character value;
     private Type type;
 
-    private AtomicReference<NfaState> out = new AtomicReference<>();
-    private AtomicReference<NfaState> outAlt = new AtomicReference<>();
+    private Holder out = new Holder();
+    private Holder outAlt = new Holder();
 
 
     public NfaState(Character value, Type type, NfaState out, NfaState outAlt) {
@@ -35,17 +45,11 @@ public class NfaState {
         return type;
     }
 
-    public AtomicReference<NfaState> getOut() {
+    public Holder getOut() {
         return out;
     }
-    void setOut(NfaState out) {
-        this.out.set(out);
-    }
 
-    public AtomicReference<NfaState> getOutAlt() {
+    public Holder getOutAlt() {
         return outAlt;
-    }
-    void setOutAlt(NfaState outAlt) {
-        this.outAlt.set(outAlt);
     }
 }

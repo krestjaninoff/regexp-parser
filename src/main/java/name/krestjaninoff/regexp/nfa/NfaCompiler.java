@@ -8,6 +8,8 @@ import java.util.Stack;
 
 /**
  * A compiler of NonDeterministic Finite State Machine
+ *
+ * @link https://en.wikipedia.org/wiki/Thompson%27s_construction
  */
 public class NfaCompiler {
 

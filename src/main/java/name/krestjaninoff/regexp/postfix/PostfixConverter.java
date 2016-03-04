@@ -95,9 +95,6 @@ public class PostfixConverter {
             if (isOperandCase || isOperationCase) {
 
                 result.append('.');
-                result.append(source.charAt(i + 1));
-
-                i++;
             }
         }
 
