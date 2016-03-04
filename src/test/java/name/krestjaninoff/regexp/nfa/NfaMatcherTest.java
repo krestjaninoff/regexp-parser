@@ -74,6 +74,15 @@ public class NfaMatcherTest {
                 { "a(bb)+a", "abbba", false},
                 { "a(bb)+a", "aba", false},
 
+                // Character range
+                { "a[b-d]?e", "ae", true},
+                { "a[b-d]?e", "ace", true},
+                { "a[b-d]?e", "acce", false},
+                { "a[^b-y]*z", "az", true},
+                { "a[^b-y]*z", "aaz", true},
+                { "a[^b-y]*z", "aaazzz", true},
+                { "a[^b-y]*z", "abz", false},
+
                 // Compound cases
                 { "a(bc)?c*|cd", "a", true},
                 { "a(bc)?c*|cd", "abc", true},

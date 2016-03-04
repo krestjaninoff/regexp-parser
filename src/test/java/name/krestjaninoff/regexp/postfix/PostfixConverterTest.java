@@ -47,6 +47,10 @@ public class PostfixConverterTest {
                 { "a(bb)+a", "abb.+.a."},
                 { "(aa)?", "aa.?"},
 
+                // Character range
+                { "a[b-d]?e", "abc|d|?.e."},
+                { "a[^b-y]?z", "aaz|?.z."},
+
                 // Compound cases
                 { "a(bc)?c*|cd", "abc.?.c*.cd.|"}
         };

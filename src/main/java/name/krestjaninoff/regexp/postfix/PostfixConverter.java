@@ -69,8 +69,8 @@ public class PostfixConverter {
                     case '[':
                         CharacterRange.Result charRangeResult = new CharacterRange().expand(source, i);
 
-                        result.append(charRangeResult.getRegexp());
-                        i = charRangeResult.getEndPosition() + 1;
+                        source = charRangeResult.getRegexp();
+                        i--;
 
                         break;
 
@@ -108,19 +108,32 @@ public class PostfixConverter {
     private String addConcatenation(String source) {
         StringBuilder result = new StringBuilder();
 
-        List<Character> operBefore = Arrays.asList('(');
+        List<Character> operBefore = Arrays.asList('(', '[');
         List<Character> operAfter = Arrays.asList(')', '?', '+', '*');
 
         for (int i = 0; i < source.length(); i++) {
 
+            // Save the current element
             char current = source.charAt(i);
             result.append(current);
 
+            // Process Character Ranges
+            if (current == '[') {
+                for (i = i + 1; source.charAt(i) != ']'; i++) {
+                    result.append(source.charAt(i));
+                }
+
+                result.append(source.charAt(i));
+                continue;
+            }
+
+            // Get the next element
             Character next = i + 1 < source.length() ? source.charAt(i + 1) : null;
             if (next == null) {
                 break;
             }
 
+            // Append the Concatenation
             boolean isOperandCase = !operations.containsKey(current) && (!operations.containsKey(next) || operBefore.contains(next));
             boolean isOperationCase = operAfter.contains(current) && !operations.containsKey(next);
             if (isOperandCase || isOperationCase) {
