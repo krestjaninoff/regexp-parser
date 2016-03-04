@@ -30,7 +30,7 @@ public class RegexpEngine {
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to test the regexp '" + pattern +
-                    "' against candidate '" + candidate + "'", e);
+                    "' against the candidate '" + candidate + "'", e);
         }
 
         return result;

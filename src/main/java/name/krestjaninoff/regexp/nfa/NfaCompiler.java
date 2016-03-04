@@ -51,7 +51,7 @@ public class NfaCompiler {
         }
 
         Fragment top = stack.pop();
-        top.bindTo(new NfaState(0, NfaState.Type.MATCH, null, null));
+        top.bindTo(new NfaState(null, NfaState.Type.MATCH, null, null));
 
         return top.getStart();
     }
@@ -69,7 +69,7 @@ public class NfaCompiler {
         Fragment fragment2 = stack.pop();
         Fragment fragment1 = stack.pop();
 
-        NfaState state = new NfaState(0, NfaState.Type.SPLIT, fragment1.getStart(), fragment2.getStart());
+        NfaState state = new NfaState(null, NfaState.Type.SPLIT, fragment1.getStart(), fragment2.getStart());
         Fragment fragment = new Fragment(state, ListUtils.union(fragment1.getOut(), fragment2.getOut()));
 
         stack.push(fragment);
@@ -79,7 +79,7 @@ public class NfaCompiler {
 
         Fragment fragment1 = stack.pop();
 
-        NfaState state = new NfaState(0, NfaState.Type.SPLIT, fragment1.getStart(), null);
+        NfaState state = new NfaState(null, NfaState.Type.SPLIT, fragment1.getStart(), null);
         fragment1.bindTo(state);
 
         Fragment fragment = new Fragment(state, Arrays.asList(state.getOutAlt()));
@@ -91,7 +91,7 @@ public class NfaCompiler {
 
         Fragment fragment1 = stack.pop();
 
-        NfaState state = new NfaState(0, NfaState.Type.SPLIT, fragment1.getStart(), null);
+        NfaState state = new NfaState(null, NfaState.Type.SPLIT, fragment1.getStart(), null);
         fragment1.bindTo(state);
 
         Fragment fragment = new Fragment(fragment1.getStart(), Arrays.asList(state.getOutAlt()));
@@ -103,7 +103,7 @@ public class NfaCompiler {
 
         Fragment fragment1 = stack.pop();
 
-        NfaState state = new NfaState(0, NfaState.Type.SPLIT, fragment1.getStart(), null);
+        NfaState state = new NfaState(null, NfaState.Type.SPLIT, fragment1.getStart(), null);
         Fragment fragment = new Fragment(state, ListUtils.union(fragment1.getOut(), Arrays.asList(state.getOutAlt())));
 
         stack.push(fragment);

@@ -11,16 +11,14 @@ public class NfaState {
         CHAR, SPLIT, MATCH;
     }
 
-    private int value;
+    private Character value;
     private Type type;
 
-    private AtomicReference<NfaState> out;
+    private AtomicReference<NfaState> out = new AtomicReference<>();
     private AtomicReference<NfaState> outAlt = new AtomicReference<>();
 
-    private int lastList;
 
-
-    public NfaState(int value, Type type, NfaState out, NfaState outAlt) {
+    public NfaState(Character value, Type type, NfaState out, NfaState outAlt) {
         this.value = value;
         this.type = type;
 
@@ -29,7 +27,7 @@ public class NfaState {
     }
 
 
-    public int getValue() {
+    public Character getValue() {
         return value;
     }
 
@@ -49,9 +47,5 @@ public class NfaState {
     }
     void setOutAlt(NfaState outAlt) {
         this.outAlt.set(outAlt);
-    }
-
-    public int getLastList() {
-        return lastList;
     }
 }
