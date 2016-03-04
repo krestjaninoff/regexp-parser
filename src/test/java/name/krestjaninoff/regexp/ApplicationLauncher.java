@@ -6,6 +6,6 @@ package name.krestjaninoff.regexp;
 public class ApplicationLauncher {
 
     public static void main(String[] args) {
-        Application.main(new String[]{"ab*|c", "abb"});
+        Application.main(new String[]{"a|b", "aaa"});
     }
 }

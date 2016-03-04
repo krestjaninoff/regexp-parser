@@ -1,6 +1,7 @@
 package name.krestjaninoff.regexp.nfa;
 
 import org.apache.commons.collections.ListUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Stack;
@@ -10,9 +11,19 @@ import java.util.Stack;
  */
 public class NfaCompiler {
 
+    /**
+     * Compile a postfix-written regular expression into NFA
+     */
     public NfaState compile(String postfix) {
+
+        // Check the input data
+        if (StringUtils.isBlank(postfix)) {
+            return null;
+        }
+
         Stack<Fragment> stack = new Stack<>();
 
+        // Parse the regular expression
         for (int i = 0; i < postfix.length(); i++) {
             char value = postfix.charAt(i);
 
@@ -50,9 +61,11 @@ public class NfaCompiler {
             }
         }
 
+        // Add the final state
         Fragment top = stack.pop();
         top.bindTo(new NfaState(null, NfaState.Type.MATCH, null, null));
 
+        // Return the head
         return top.getStart();
     }
 

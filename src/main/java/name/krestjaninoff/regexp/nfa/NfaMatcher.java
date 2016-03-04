@@ -51,10 +51,10 @@ public class NfaMatcher {
         list.add(state);
     }
 
-    private void makeStep(char value, List<NfaState> currentStates, List<NfaState> nextStates) {
+    private void makeStep(Character value, List<NfaState> currentStates, List<NfaState> nextStates) {
 
         currentStates.stream()
-                .filter(s -> s.getValue() == value)
+                .filter(s -> value.equals(s.getValue()))
                 .forEach(s -> addState(nextStates, s.getOut().get()));
     }
 }
