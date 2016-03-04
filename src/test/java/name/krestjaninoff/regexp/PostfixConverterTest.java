@@ -22,7 +22,6 @@ public class PostfixConverterTest {
     public static Collection<Object[]> data() {
         Object[][] data = new Object[][] {
 
-                {"(5+3)*7+1", "53+7*1+"},
                 { "ab", "ab." },
                 { "ab*|c", "ab*.c|"},
                 { "a(bb)+a", "abb.+.a."}

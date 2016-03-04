@@ -1,8 +1,6 @@
 package name.krestjaninoff.regexp;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * A converter to Postfix record format
@@ -79,11 +77,22 @@ public class PostfixConverter {
     private String addConcatenation(String source) {
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < source.length(); i++) {
-            result.append(source.charAt(i));
+        List<Character> operBefore = Arrays.asList('(');
+        List<Character> operAfter = Arrays.asList(')', '?', '+', '*');
 
-            if (!operations.containsKey(source.charAt(i)) &&
-                    (i + 1 < source.length()) && !operations.containsKey(source.charAt(i + 1))) {
+        for (int i = 0; i < source.length(); i++) {
+
+            char current = source.charAt(i);
+            result.append(current);
+
+            Character next = i + 1 < source.length() ? source.charAt(i + 1) : null;
+            if (next == null) {
+                break;
+            }
+
+            boolean isOperandCase = !operations.containsKey(current) && (!operations.containsKey(next) || operBefore.contains(next));
+            boolean isOperationCase = operAfter.contains(current) && !operations.containsKey(next);
+            if (isOperandCase || isOperationCase) {
 
                 result.append('.');
                 result.append(source.charAt(i + 1));
