@@ -24,6 +24,10 @@ public class PostfixConverter {
         operations.put('|', 1);
         operations.put('(', 0);
         operations.put(')', 0);
+        operations.put('[', -1);
+        operations.put(']', -1);
+        operations.put('{', -1);
+        operations.put('}', -1);
     }
 
     public String convertInfix(String source) {
@@ -45,23 +49,50 @@ public class PostfixConverter {
             // Character is an operation
             } else {
 
-                // Process the braces
-                if (c == '(') {
-                    stack.push(c);
+                switch (c) {
 
-                } else if (c == ')') {
+                    // Grouping
+                    case '(':
+                        stack.push(c);
+                        break;
 
-                    while (stack.peek() != '(') {
-                        result.append(stack.pop());
-                    }
-                    stack.pop();
+                    case ')':
 
-                // Process the operator
-                } else {
-                    while (!stack.isEmpty() && operations.get(c) <= operations.get(stack.peek())) {
-                        result.append(stack.pop());
-                    }
-                    stack.push(c);
+                        while (stack.peek() != '(') {
+                            result.append(stack.pop());
+                        }
+                        stack.pop();
+
+                        break;
+
+                    // Character range
+                    case '[':
+                        CharacterRange.Result charRangeResult = new CharacterRange().expand(source, i);
+
+                        result.append(charRangeResult.getRegexp());
+                        i = charRangeResult.getEndPosition() + 1;
+
+                        break;
+
+                    // Counted repetition
+                    case '{':
+                        CountedRepetition.Result countedRepeatResult = new CountedRepetition().expand(source, i,
+                                result.charAt(result.length() - 1));
+
+                        result.append(countedRepeatResult.getRegexp());
+                        i = countedRepeatResult.getEndPosition() + 1;
+
+                        break;
+
+                    // Process an operator
+                    default:
+
+                        while (!stack.isEmpty() && operations.get(c) <= operations.get(stack.peek())) {
+                            result.append(stack.pop());
+                        }
+                        stack.push(c);
+
+                        break;
                 }
             }
         }
