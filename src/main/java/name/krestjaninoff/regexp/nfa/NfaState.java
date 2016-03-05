@@ -1,15 +1,17 @@
 package name.krestjaninoff.regexp.nfa;
 
+import lombok.Getter;
+
 /**
  * A state of NFA
  */
 public class NfaState {
 
-    public enum Type {
+    enum Type {
         CHAR, SPLIT, MATCH
     }
 
-    public static class Holder {
+    static class Holder {
         private NfaState state;
 
         public NfaState get() {
@@ -21,10 +23,14 @@ public class NfaState {
         }
     }
 
+    @Getter
     private Character value;
+    @Getter
     private Type type;
 
+    @Getter
     private Holder out = new Holder();
+    @Getter
     private Holder outAlt = new Holder();
 
 
@@ -34,22 +40,5 @@ public class NfaState {
 
         this.out.set(out);
         this.outAlt.set(outAlt);
-    }
-
-
-    public Character getValue() {
-        return value;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public Holder getOut() {
-        return out;
-    }
-
-    public Holder getOutAlt() {
-        return outAlt;
     }
 }

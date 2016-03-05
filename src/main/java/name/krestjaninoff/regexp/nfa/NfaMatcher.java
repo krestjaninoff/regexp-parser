@@ -10,12 +10,11 @@ import java.util.Set;
  */
 public class NfaMatcher {
 
-    public boolean match(NfaState nfa, String candidate) {
-
-        Set<NfaState> currentStates = new HashSet<>();
+    public boolean match(NfaState nfaHead, String candidate) {
 
         // Add the initial state
-        addState(currentStates, nfa);
+        Set<NfaState> currentStates = new HashSet<>();
+        addState(currentStates, nfaHead);
 
         // Traverse through the NFA
         for (int i = 0; i < candidate.length(); i++) {

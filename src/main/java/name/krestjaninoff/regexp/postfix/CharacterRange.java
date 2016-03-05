@@ -1,7 +1,5 @@
 package name.krestjaninoff.regexp.postfix;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.apache.commons.collections.ListUtils;
 
 import java.util.ArrayList;
@@ -10,36 +8,28 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * A helper to support Character Ranges
+ * A Character Ranges helper
  */
 class CharacterRange {
 
     private static final List<Integer> ALPHABET = IntStream.rangeClosed('a', 'z').boxed().
             collect(Collectors.toList());
 
-
-    @AllArgsConstructor
-    public class Result {
-
-        @Getter
-        private String regexp;
-        @Getter
-        private int endPosition;
-    }
-
     /**
      * Replaces a Character Range with an Alternation
      *
      * <p>
-     *     It's better to introduce a separate NfaState for case, but since we're limited in time,
-     *     that is the simplest solution.
-     *
-     *     Exampeles:
-     *     [a-c] -> (a|b|c)
-     *     [^a-x] -> (y|z)
+     *     There are rumors that it's better to introduce a separate NfaState for this case, but for now things are
+     *     how they are.
      * </p>
+     *
+     * Examples:
+     * <ul>
+     *     <li>[a-c] -> (a|b|c)</li>
+     *     <li>[^a-x] -> (y|z)</li>
+     * </ul>
      */
-    public Result expand(String source, int start) {
+    public String expand(String source, int start) {
         int pointer = start + 1;
 
         // Check if negative
@@ -72,7 +62,7 @@ class CharacterRange {
             symbols = ListUtils.removeAll(ALPHABET, symbols);
         }
 
-        // Build the regular expression for our range
+        // Build the regular expression for the range
         StringBuffer alternation = new StringBuffer();
 
         if (symbols.size() == 1) {
@@ -93,6 +83,6 @@ class CharacterRange {
         // Rebuild the original expression
         String regexp = source.substring(0, start) + alternation.toString() + source.substring(i + 1);
 
-        return new Result(regexp, i);
+        return regexp;
     }
 }

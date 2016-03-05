@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * A helper to support Counted Repetitions
+ * A Counted Repetitions helper
  */
 class CountedRepetition {
 
@@ -95,9 +95,6 @@ class CountedRepetition {
         return new Result(result, start - 1 - value.length());
     }
 
-    /**
-     * A little helper for building the regexp
-     */
     private void buildSequence(StringBuilder regexp, String value, int limit, Character qualifier) {
 
         for (int j = 0; j < limit; j++) {

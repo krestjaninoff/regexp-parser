@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Stack;
 
 /**
- * A compiler of NonDeterministic Finite State Machine
+ * A compiler of NonDeterministic Finite Automata
  *
  * @link https://en.wikipedia.org/wiki/Thompson%27s_construction
  */

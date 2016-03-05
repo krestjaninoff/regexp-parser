@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /**
  * Tests for {@link CharacterRange}
@@ -40,7 +39,7 @@ public class CharacterRangeTest {
 
     @Test
     public void test() {
-        String currResult = new CharacterRange().expand(source, 0).getRegexp();
+        String currResult = new CharacterRange().expand(source, 0);
         assertEquals(source + " to " + currResult, result, currResult);
     }
 }

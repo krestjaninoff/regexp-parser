@@ -77,15 +77,14 @@ public class PostfixConverter {
 
                     // Character range
                     case '[':
-                        CharacterRange.Result charRangeResult = new CharacterRange().expand(source, i);
-
-                        source = charRangeResult.getRegexp();
+                        source = new CharacterRange().expand(source, i);
                         i--;
 
                         break;
 
                     // Counted repetition
                     case '{':
+                        // Get the previous group
                         String value = i - 1 != lastGroupEnd ?
                                 String.valueOf(result.charAt(result.length() - 1)) :
                                 source.substring(lastGroupStart + 1, lastGroupEnd);
