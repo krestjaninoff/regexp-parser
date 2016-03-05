@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
  * Tests for {@link CharacterRange}
  */
 @RunWith(value = Parameterized.class)
-public class CharacterRangeTest {
+public class CountedRepetitionTest {
     private String source;
     private String result;
 
@@ -22,25 +22,28 @@ public class CharacterRangeTest {
     public static Collection<Object[]> data() {
         Object[][] data = new Object[][] {
 
-                { "[a]", "a" },
-                { "[abc]", "(a|b|c)" },
-                { "[a-c]", "(a|b|c)" },
-                { "[ac-d]", "(a|c|d)" },
-                { "[^a-w]", "(x|y|z)" },
-                { "[^za-x]", "y" }
+                // Basic cases
+                { "a{3}", "a.a.a" },
+                { "a{3,}", "a.a.a+" },
+                { "a{,3}", "a?.a?.a?" },
+                { "a{3,5}", "a.a.a.a?.a?" },
+
+                // Two symbols integer
+                { "a{10,}", "a.a.a.a.a.a.a.a.a.a+" }
         };
 
         return Arrays.asList(data);
     }
 
-    public CharacterRangeTest(String source, String result) {
+    public CountedRepetitionTest(String source, String result) {
         this.source = source;
         this.result = result;
     }
 
     @Test
     public void test() {
-        String currResult = new CharacterRange().expand(source, 0).getRegexp();
+        String currResult = new CountedRepetition().expand(source, 1, "a").getSource();
         assertEquals(source + " to " + currResult, result, currResult);
     }
 }
+

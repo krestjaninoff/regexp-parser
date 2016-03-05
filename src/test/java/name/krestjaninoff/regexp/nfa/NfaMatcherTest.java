@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Tests for {@link NfaMatcher}
@@ -82,6 +83,29 @@ public class NfaMatcherTest {
                 { "a[^b-y]*z", "aaz", true},
                 { "a[^b-y]*z", "aaazzz", true},
                 { "a[^b-y]*z", "abz", false},
+
+                // Counter repetition
+                { "ab{2}e", "abbe", true},
+                { "ab{2}e", "ae", false},
+                { "ab{2}e", "abbbe", false},
+                { "ab{,2}e", "ae", true},
+                { "ab{,2}e", "abe", true},
+                { "ab{,2}e", "abbbe", false},
+                { "ab{2,}e", "abbe", true},
+                { "ab{2,}e", "abbbe", true},
+                { "ab{2,}e", "abe", false},
+                { "ab{1,2}e", "abe", true},
+                { "ab{1,2}e", "abbe", true},
+                { "ab{1,2}e", "ae", false},
+                { "ab{1,2}e", "abbbe", false},
+                { "a[b-c]{2}e", "abbe", true},
+                { "a[b-c]{2}e", "abce", true},
+                { "a[b-c]{2}e", "abbce", false},
+                { "a(bc*|d){2,}e", "abbe", true},
+                { "a(bc*|d){2,}e", "abde", true},
+                { "a(bc*|d){2,}e", "abcccde", true},
+                { "a(bc*|d){2,}e", "ade", false},
+                { "a(bc*|d){2,}e", "abcccbd", false},
 
                 // Compound cases
                 { "a(bc)?c*|cd", "a", true},

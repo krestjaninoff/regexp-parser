@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Tests for {@link PostfixConverter}
@@ -50,6 +51,14 @@ public class PostfixConverterTest {
                 // Character range
                 { "a[b-d]?e", "abc|d|?.e."},
                 { "a[^b-y]?z", "aaz|?.z."},
+
+                // Counter repetition
+                { "ab{2}e", "ab.b.e."},
+                { "ab{,2}e", "ab?.b?.e."},
+                { "ab{2,}e", "ab.b+.e."},
+                { "ab{1,2}e", "ab.b?.e."},
+                { "a[b-c]{2}e", "abc|.bc|.e."},
+                { "a(bc*|d){2,}e", "abc*.d|.bc*.d|+.e."},
 
                 // Compound cases
                 { "a(bc)?c*|cd", "abc.?.c*.cd.|"}
