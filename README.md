@@ -5,25 +5,27 @@ A dummy regexp parser
 
 This is the simplest regexp parser implementation that supports the following constructions:
  
- * a? - zero or one
+ * a? - zero or on;
  * a+ - one or more
  * a* - zero or more
  * a|b - alternation
- * (a) - braces
+ * (a) - grouping
+ * {n,m} - counted repetition
+ * \[a-z\] - character range (including negative variant)
  
-Implementation is based on the following article: https://swtch.com/~rsc/regexp/regexp1.html
-
 
 ### Usage
 
 To test your string against a regular expression compile the project
 
 ```
-mvn clean build
+mvn clean package
 ```
 
 and run the following command
 
 ```
-java -jar build/regexp-parser.jar a*b+ aaabb
+java -jar target/regexp-parser-1.0-SNAPSHOT-jar-with-dependencies.jar "a*b+" "aaabb"
 ```
+
+Alternatively, you can take a look at JUnit tests :)
